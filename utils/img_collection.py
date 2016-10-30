@@ -57,3 +57,8 @@ def getTreeUrls(tree):
         res.append(row['Urls'])
     
     return res
+
+
+def findRandomDocuments(collection, randomDocumentsCount):
+    randomDocumentsRatio = float(randomDocumentsCount) / collection.count()
+    return collection.find({'$where':"function () {return Math.random()<%f}" % randomDocumentsRatio})
