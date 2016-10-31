@@ -105,3 +105,10 @@ def assignToPool(urlRecord, poolId, target):
             }
         }
     )
+
+
+def getPoolUrlsIterator(poolId):
+    if type(poolId) == str:
+        poolId = ObjectId(poolId)
+
+    return db.image_urls.find({'pools.poolId':poolId})

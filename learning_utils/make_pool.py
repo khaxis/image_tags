@@ -13,10 +13,6 @@ def parseArguments():
 	return parser.parse_args()
 
 
-def downloadImage():
-	return 0
-
-
 def makePool(argv):
 	args = parseArguments()
 
