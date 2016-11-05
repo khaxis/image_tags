@@ -110,5 +110,36 @@ def assignToPool(urlRecord, poolId, target):
 def getPoolUrlsIterator(poolId):
     if type(poolId) == str:
         poolId = ObjectId(poolId)
-
     return db.image_urls.find({'pools.poolId':poolId})
+
+
+def getPoolSize(poolId, downloadedOnly=False):
+    if type(poolId) == str:
+        poolId = ObjectId(poolId)
+    query = {'pools.poolId':poolId}
+    if downloadedOnly:
+        query['downloadable'] = True
+    return db.image_urls.count(query)
+
+
+def updateImagePath(imageRecord, path):
+    return db.image_urls.update_one(
+        {'_id':imageRecord['_id']},
+        {
+        '$set':
+            {
+            'path':path
+            }
+        }
+    )
+
+def updateImageDownloadableStatus(imageRecord, downloadable):
+    return db.image_urls.update_one(
+        {'_id':imageRecord['_id']},
+        {
+        '$set':
+            {
+            'downloadable':downloadable
+            }
+        }
+    )
