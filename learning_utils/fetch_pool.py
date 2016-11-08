@@ -26,13 +26,13 @@ def fetchPool(argv):
 	
 	for row in icoll.getPoolUrlsIterator(args.pool):
 		destination = os.path.join(storePath, row['IId'])
-		if 'path' not in row:
-			if web_utils.downloadSingleImage(row['Url'], destination):
-				# the image successfully saved
-				icoll.updateImagePath(row, destination)
-				icoll.updateImageDownloadableStatus(row, True)
-			else:
-				icoll.updateImageDownloadableStatus(row, False)
+		#if 'path' not in row:
+		if web_utils.downloadSingleImage(row['Url'], destination):
+			# the image successfully saved
+			icoll.updateImagePath(row, destination)
+			icoll.updateImageDownloadableStatus(row, True)
+		else:
+			icoll.updateImageDownloadableStatus(row, False)
 		i += 1
 		progress_bar.printProgress(i, totalCount)
 	print
