@@ -143,3 +143,14 @@ def updateImageDownloadableStatus(imageRecord, downloadable):
 			}
 		}
 	)
+
+def updateImageSlices(imageRecord, slices):
+    return db.image_urls.update_one(
+        {'_id':imageRecord['_id']},
+        {
+        '$set':
+            {
+            'slices':slices
+            }
+        }
+    )
