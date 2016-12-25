@@ -92,7 +92,7 @@ def makePool(description):
 	return db.pool.insert({'description':description, 'date_inserted':datetime.datetime.utcnow()})
 
 
-def assignToPool(urlRecord, poolId, target):
+def assignToPool(urlRecord, poolId, target, in_train_set=True):
 	db.image_urls.update_one(
 		{'_id':urlRecord['_id']},
 		{'$push':
@@ -100,7 +100,8 @@ def assignToPool(urlRecord, poolId, target):
 			'pools':
 				{
 				'poolId': poolId,
-				'target':target
+				'target':target,
+				'in_train_set': in_train_set
 				}
 			}
 		}
@@ -145,12 +146,12 @@ def updateImageDownloadableStatus(imageRecord, downloadable):
 	)
 
 def updateImageSlices(imageRecord, slices):
-    return db.image_urls.update_one(
-        {'_id':imageRecord['_id']},
-        {
-        '$set':
-            {
-            'slices':slices
-            }
-        }
-    )
+	return db.image_urls.update_one(
+		{'_id':imageRecord['_id']},
+		{
+		'$set':
+			{
+			'slices':slices
+			}
+		}
+	)
