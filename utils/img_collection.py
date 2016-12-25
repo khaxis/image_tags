@@ -108,10 +108,22 @@ def assignToPool(urlRecord, poolId, target, in_train_set=True):
 	)
 
 
-def getPoolUrlsIterator(poolId):
+def getPoolUrlsIterator(poolId, include_train_set=True, include_test_set=True):
 	if type(poolId) == str:
 		poolId = ObjectId(poolId)
-	return db.image_urls.find({'pools.poolId':poolId})
+	if not include_train_set and not include_test_set:
+		return None
+	elif include_train_set and include_test_set:
+		return db.image_urls.find({'pools.poolId':poolId})
+	return db.image_urls.find(
+		{'$and': [
+			{'pools.poolId': poolId}, 
+			{'$or': [
+				{"pools.in_train_set": {'$exists': False}},
+				{"pools.in_train_set": include_train_set}	# eigher include_train_set or include_test_set is set to True, not both
+				]}
+			]
+		})
 
 
 def getPoolSize(poolId, downloadedOnly=False):
@@ -155,3 +167,17 @@ def updateImageSlices(imageRecord, slices):
 			}
 		}
 	)
+
+def makeClassificationModel(pool_id, description, nId, slices, estimated_score, path, include_test_set):
+	return db.classification_model.insert(
+		{
+			'description': description,
+			'date_inserted': datetime.datetime.utcnow(),
+			'nId': nId,
+			'deprecated': False,
+			'slices': slices,
+			'estimated_score': estimated_score,
+			'path': path,
+			'include_test_set': include_test_set,
+			'pool_id': pool_id
+		})

@@ -4,6 +4,7 @@ import argparse
 from utils import img_collection as icoll
 from utils import web_utils
 from utils import progress_bar
+from utils import config
 from features import sliceFactory
 import random
 import os
@@ -19,7 +20,7 @@ def parseArguments():
 def fetchPool(argv):
 	args = parseArguments()
 	
-	workingDir = os.getcwd()
+	workingDir = config.getDataPath()
 	storePath = os.path.join(workingDir, 'data', 'images')
 
 	i = 0
