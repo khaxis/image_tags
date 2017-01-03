@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+{% block title %}Pool {{ pool['_id'] }} - {{ pool['description'] }}{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',filename='gallery.css') }}" />
+{% endblock %}
+{% block content %}
+    <h1>Pool #{{ pool['_id'] }}</h1>
+    <h2>Description: {{ pool['description'] }}<h2>
+    <h2>Created: {{ pool['date_inserted'] }}</h2>
+    {% for target in class_images %}
+        <h3>Target: {{ target }}</h3>
+        {% for image in class_images[target] %}
+            <a href="/get_image/{{image['IId']}}"><img src="/get_image/{{image['IId']}}" class="thumbnail"/></a>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}

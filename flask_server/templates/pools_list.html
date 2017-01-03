@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+{% block title %}Pools{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',filename='table.css') }}" />
+{% endblock %}
+{% block content %}
+    <h1>Pools</h1>
+    <table id="general_table">
+        <tr id="table_header">
+            <td>ID</td>
+            <td>Description</td>
+            <td>Date inserted</td>
+        </tr>
+        {% for index, row in pools_list %}
+            <tr class="table_content {{ loop.cycle('odd', 'even') }}">
+                <td><a href="/pools/{{ row['_id'] }}">{{ row['_id'] }}</a></td>
+                <td>{{ row['description'] }}</td>
+                <td>{{ row['date_inserted'] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

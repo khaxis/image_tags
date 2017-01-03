@@ -27,8 +27,6 @@ def fetchPool(argv):
 	totalCount = icoll.getPoolSize(args.pool)
 	
 	for row in icoll.getPoolUrlsIterator(args.pool):
-		### !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		break
 		destination = os.path.join(storePath, row['IId'])
 		if 'path' not in row:
 			if web_utils.downloadSingleImage(row['Url'], destination):

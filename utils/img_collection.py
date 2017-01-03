@@ -109,7 +109,7 @@ def assignToPool(urlRecord, poolId, target, in_train_set=True):
 
 
 def getPoolUrlsIterator(poolId, include_train_set=True, include_test_set=True):
-	if type(poolId) == str:
+	if type(poolId) != ObjectId:
 		poolId = ObjectId(poolId)
 	if not include_train_set and not include_test_set:
 		return None
@@ -127,7 +127,7 @@ def getPoolUrlsIterator(poolId, include_train_set=True, include_test_set=True):
 
 
 def getPoolSize(poolId, downloadedOnly=False):
-	if type(poolId) == str:
+	if type(poolId) != ObjectId:
 		poolId = ObjectId(poolId)
 	query = {'pools.poolId':poolId}
 	if downloadedOnly:

@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+{% block title %}Pool {{ pool['_id'] }} - {{ pool['description'] }}{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',filename='table.css') }}" />
+{% endblock %}
+{% block content %}
+    <h1>Pool #{{ pool['_id'] }}</h1>
+    <h2>Description: {{ pool['description'] }}<h2>
+    <h2>Created: {{ pool['date_inserted'] }}</h2>
+{% endblock %}

@@ -26,7 +26,6 @@ def makePool(argv):
 	sys.stdout.write("Done\n")
 
 	description = "%s %s" % (tree['NId'], tree['description'])
-	description = "test"
 	poolId = icoll.makePool(description)
 	sys.stdout.write("Pool created with ID: %s\n" % poolId)
 	
