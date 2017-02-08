@@ -1,28 +1,28 @@
 #general_table {
-	border: 1px solid gray;
-	overflow:auto;
+    border: 1px solid gray;
+    overflow:auto;
 }
 
 #table_header td {
-	background: #33cccc;
-	font-size: 1.2em;
-	font-weight: bold;
-	padding: .4em;
+    background: #33cccc;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: .4em;
 }
 
 #general_table .table_content td {
-	font-size: 1em;
-	padding: .4em;	
+    font-size: 1em;
+    padding: .4em;    
 }
 
 #general_table .even {
-	background: #dff;
+    background: #dff;
 }
 
 #general_table .odd {
-	background: #fff;
+    background: #fff;
 }
 
 #general_table a {
-	color: #00b;
+    color: #00b;
 }

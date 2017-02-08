@@ -7,30 +7,30 @@ import random
 
 
 def parseArguments():
-	parser = argparse.ArgumentParser(description='Make learning pool')
-	parser.add_argument('--description', dest='description', help='Name of the pool', required=True)
-	parser.add_argument('--capacity', dest='capacity', help='Number of random samples', required=True)
+    parser = argparse.ArgumentParser(description='Make learning pool')
+    parser.add_argument('--description', dest='description', help='Name of the pool', required=True)
+    parser.add_argument('--capacity', dest='capacity', help='Number of random samples', required=True)
 
-	return parser.parse_args()
+    return parser.parse_args()
 
 
 def makePool(argv):
-	args = parseArguments()
-	imageUrls = []
+    args = parseArguments()
+    imageUrls = []
 
-	poolId = icoll.makePool(args.description)
-	print "Getting random images..."
-	for row in icoll.findRandomImageUrlsDocuments(args.capacity):
-		imageUrls.append(row)
+    poolId = icoll.makePool(args.description)
+    print "Getting random images..."
+    for row in icoll.findRandomImageUrlsDocuments(args.capacity):
+        imageUrls.append(row)
 
-	print "Assigning images to the pool"
-	imageUrlsSize = len(imageUrls)
-	for index, row in enumerate(imageUrls, 1):
-		icoll.assignToPool(row, poolId, 1)
-		progress_bar.printProgress(index, imageUrlsSize)
+    print "Assigning images to the pool"
+    imageUrlsSize = len(imageUrls)
+    for index, row in enumerate(imageUrls, 1):
+        icoll.assignToPool(row, poolId, 1)
+        progress_bar.printProgress(index, imageUrlsSize)
 
-	return poolId
+    return poolId
 
 
 if __name__ == "__main__":
-	print makePool(sys.argv)
+    print makePool(sys.argv)

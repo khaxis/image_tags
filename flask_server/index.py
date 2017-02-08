@@ -7,9 +7,9 @@ from models_list import *
 @app.route("/")
 @app.route("/index")
 def main():
-	return render_template('index.html')
+    return render_template('index.html')
 
 
 if __name__ == "__main__":
-	urls_for()
-	app.run()
+    urls_for()
+    app.run()
