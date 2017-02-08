@@ -1,2 +1,2 @@
 def getDataPath():
-    return '/Users/khaxis/workspace/image_tags'
+    return '/Users/khaxis/data/image_tags'

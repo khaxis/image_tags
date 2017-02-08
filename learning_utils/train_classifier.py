@@ -110,7 +110,7 @@ def train_classifier(poolId, nId, name, include_test, slices, description):
     print "Best regularization parameter so far: %f" % C
     clf = svm.SVC(kernel='rbf', C=C).fit(features, targets)
     workingDir = config.getDataPath()
-    storePath = os.path.join(workingDir, 'data', 'models')
+    storePath = os.path.join(workingDir, 'models')
     destination = os.path.join(storePath, str(uuid.uuid1()) + '.pkl')
     
     joblib.dump(clf, destination, compress=3)

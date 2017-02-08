@@ -21,7 +21,7 @@ def fetchPool(argv):
     args = parseArguments()
     
     workingDir = config.getDataPath()
-    storePath = os.path.join(workingDir, 'data', 'images')
+    storePath = os.path.join(workingDir, 'images')
 
     i = 0
     totalCount = icoll.getPoolSize(args.pool)
