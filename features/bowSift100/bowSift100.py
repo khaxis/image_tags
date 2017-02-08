@@ -47,6 +47,9 @@ class BOWSift100(BaseSlice):
 				res.append(None)
 				continue
 			kpts = self.__fea_det.detect(im)
+			if len(kpts) == 0:	# no key points detected
+				res.append(None)
+				continue
 			kpts, des = self.__des_ext.compute(im, kpts)
 			imFeatures = np.zeros((1, self.__k), "float32")
 			words, distance = vq(des, self.__voc)

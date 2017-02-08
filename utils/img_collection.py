@@ -47,7 +47,7 @@ def findParents(sourceNode):
 
 
 def printTree(tree, depth=0):
-	print '%s-%s: %s'%(' '*depth*4, tree['NId'], tree['description'])
+	print('%s-%s: %s'%(' '*depth*4, tree['NId'], tree['description']))
 	for child in tree['children']:
 		printTree(child, depth+1)
 
@@ -123,7 +123,8 @@ def getPoolUrlsIterator(poolId, include_train_set=True, include_test_set=True):
 				{"pools.in_train_set": include_train_set}	# eigher include_train_set or include_test_set is set to True, not both
 				]}
 			]
-		})
+		},
+		no_cursor_timeout=True)
 
 
 def getPoolSize(poolId, downloadedOnly=False):
@@ -179,5 +180,5 @@ def makeClassificationModel(pool_id, description, nId, slices, estimated_score, 
 			'estimated_score': estimated_score,
 			'path': path,
 			'include_test_set': include_test_set,
-			'pool_id': pool_id
+			'pool_id': ObjectId(pool_id)
 		})

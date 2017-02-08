@@ -25,42 +25,50 @@ def fetchPool(argv):
 
 	i = 0
 	totalCount = icoll.getPoolSize(args.pool)
-	
-	for row in icoll.getPoolUrlsIterator(args.pool):
-		destination = os.path.join(storePath, row['IId'])
-		if 'path' not in row:
-			if web_utils.downloadSingleImage(row['Url'], destination):
-				# the image successfully saved
-				icoll.updateImagePath(row, destination)
-				icoll.updateImageDownloadableStatus(row, True)
-			else:
-				icoll.updateImageDownloadableStatus(row, False)
-		i += 1
-		progress_bar.printProgress(i, totalCount)
-	print
+	with icoll.getPoolUrlsIterator(args.pool) as cursor:
+		cursor.batch_size(100)
+		for row in cursor:
+			destination = os.path.join(storePath, row['IId'])
+			if 'path' not in row:
+				if web_utils.downloadSingleImage(row['Url'], destination):
+					# the image successfully saved
+					icoll.updateImagePath(row, destination)
+					icoll.updateImageDownloadableStatus(row, True)
+				else:
+					icoll.updateImageDownloadableStatus(row, False)
+			i += 1
+			progress_bar.printProgress(i, totalCount)
+		print()
 
-	print "Pool cached"
-	print "Extracting features..."
+	print("Pool cached")
+	print("Extracting features...")
 
 	i = 0
 	extractors = sliceFactory.getExtractors()
-	for row in icoll.getPoolUrlsIterator(args.pool):
-		if 'path' in row and row['downloadable']:
-			im = cv2.imread(row['path'])
-			slices = {}
-			for extractor in extractors:
-				features = extractor.extract(im)
-				if features[0] is not None:
-					entry = {}
-					entry['features'] = features[0][0].tolist()
-					entry['version'] = extractor.getVersion()
-					slices[extractor.getName()] = entry
-					
-			if len(slices) > 0:
-				icoll.updateImageSlices(row, slices)
-		i += 1
-		progress_bar.printProgress(i, totalCount)
-	print	
+	with icoll.getPoolUrlsIterator(args.pool) as cursor:
+		cursor.batch_size(100)
+		for row in cursor:
+			if 'path' in row and row['downloadable']:
+				im = None
+				slices = {}
+				for extractor in extractors:
+					extractor_name = extractor.getName()
+					if 'slices' in row and extractor_name in row['slices'] and row['slices'][extractor_name]['version'] == extractor.getVersion():
+						continue # no need to go on if features already extracted with the current version
+					if im is None:
+						im = cv2.imread(row['path'])
+					features = extractor.extract(im)
+					if features[0] is not None:
+						entry = {}
+						entry['features'] = features[0][0].tolist()
+						entry['version'] = extractor.getVersion()
+						slices[extractor_name] = entry
+				
+				if len(slices) > 0:
+					icoll.updateImageSlices(row, slices)
+			i += 1
+			progress_bar.printProgress(i, totalCount)
+		print()
 
 	return
 

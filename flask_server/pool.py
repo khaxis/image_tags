@@ -2,6 +2,7 @@
 from common import *
 from send_file import *
 import utils.pool_collection as pcoll
+import utils.model_collection as mcoll
 import utils.img_collection as icoll
 from utils.common import toObjectID
 from collections import defaultdict
@@ -26,4 +27,8 @@ def get_pool(pool_id):
 	targets = class_images.keys()
 	for k in targets:
 		class_images[k] = random.sample(class_images[k], SAMPLE_SIZE)
-	return render_template('pool.html', pool=pcoll.getPool(pool_id)[0], class_images=class_images)
+
+	models = list(mcoll.getModelsByPoolId(pool_id))
+
+	app.logger.info(models)
+	return render_template('pool.html', pool=pcoll.getPool(pool_id)[0], class_images=class_images, models=models)

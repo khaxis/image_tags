@@ -1,11 +1,54 @@
 {% extends "index.html" %}
-{% block title %}Pool {{ pool['_id'] }} - {{ pool['description'] }}{% endblock %}
+{% block title %}Model {{ model['description'] }}{% endblock %}
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static',filename='table.css') }}" />
 {% endblock %}
 {% block content %}
-    <h1>Pool #{{ pool['_id'] }}</h1>
-    <h2>Description: {{ pool['description'] }}<h2>
-    <h2>Created: {{ pool['date_inserted'] }}</h2>
+    {% include 'block/model.html' %}
+    <h1>Model #{{ model['_id'] }}</h1>
+    <h2>Parameters</h2>
+        <p>_id: {{ model['_id'] }} </p>
+        <p>pool_id: <a href="/pools/{{ model['pool_id'] }}">{{ model['pool_id'] }}</a> </p>
+        <p>description: {{ model['description'] }} </p>
+        <p>include_test_set: {{ model['include_test_set'] }} </p>
+        <p>slices deprecated: {{ model['slices deprecated'] }} </p>
+        <p>nId: {{ model['nId'] }} </p>
+        <p>date_inserted: {{ model['date_inserted'] }} </p>
+        <p>path: {{ model['path'] }} </p>
+    <h2>estimated_score</h2>
+        <table id="general_table">
+            <tr id="table_header">
+                <td>Metric / Parameter</td>
+                <td>Value</td>
+            </tr>
+            <tr class="table_content odd">
+                <td>F1</td>
+                <td>{{ '%0.2f' % model['estimated_score']['f1'] }}</td>
+            </tr>
+            <tr class="table_content even">
+                <td>Precision</td>
+                <td>{{ '%0.2f' % model['estimated_score']['precision'] }}</td>
+            </tr>
+            <tr class="table_content odd">
+                <td>Recall</td>
+                <td>{{ '%0.2f' % model['estimated_score']['recall'] }}</td>
+            </tr>
+            <tr class="table_content even">
+                <td>Accuracy</td>
+                <td>{{ '%0.2f' % model['estimated_score']['accuracy'] }}</td>
+            </tr>
+            <tr class="table_content odd">
+                <td>Accuracy interval 90%</td>
+                <td>{{ '%0.2f' % model['estimated_score']['accuracy_interval90'] }}</td>
+            </tr>
+            <tr class="table_content even">
+                <td>ROC AUC</td>
+                <td>{{ '%0.2f' % model['estimated_score']['roc_auc'] }}</td>
+            </tr>
+            <tr class="table_content odd">
+                <td>Regularization parameter</td>
+                <td>{{ '%0.2f' % model['estimated_score']['param'] }}</td>
+            </tr>
+        </table>
 {% endblock %}

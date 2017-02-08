@@ -11,8 +11,7 @@ def getPoolsList():
 
 
 def getPool(poolId):
-	if type(poolId) != ObjectId:
-		poolId = ObjectId(poolId)
+	poolId = toObjectID(poolId)
 	res = db.pool.find({'_id': poolId}).limit(1)
 	return res
 

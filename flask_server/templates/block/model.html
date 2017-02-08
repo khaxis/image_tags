@@ -1,0 +1,17 @@
+<div id="block_model">
+	<div id="block_model_header">
+		<a href="/models/{{ model['_id'] }}">Model {{ model['_id'] }}</a>	
+	</div>
+	<div id="block_model_description">
+		{{ model['description'] }}
+	</div>
+	<div id="block_model_empty">
+		
+	</div>
+	<div id="block_model_meta">
+		{{ model['date_inserted'] }} | {{ model['estimated_score']['model'] if 'estimated_score' in model else 'Pending' }} | {{ ', '.join(model['slices']) }}
+	</div>
+</div>
+
+
+

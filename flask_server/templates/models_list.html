@@ -15,13 +15,13 @@
             <td>Slices</td>
             <td>Deprecated</td>
             <td>nId</td>
-            <td>F1</td>
-            <td>Accuracy interval 90%</td>
-            <td>Recall</td>
-            <td>Precision</td>
-            <td>Param</td>
             <td>Model</td>
+            <td>F1</td>
+            <td>Precision</td>
+            <td>Recall</td>
             <td>Accuracy</td>
+            <td>Accuracy interval 90%</td>
+            <td>Param</td>
             <td>ROC AUC</td>
             <td>Pool Id</td>
 
@@ -37,11 +37,11 @@
                 <td>{{ row['nId'] }}</td>
                 <td>{{ row['estimated_score']['model'] }}</td>
                 <td>{{ '%0.2f' % row['estimated_score']['f1'] }}</td>
-                <td>{{ '%0.2f' % row['estimated_score']['accuracy_interval90'] }}</td>
-                <td>{{ '%0.2f' % row['estimated_score']['recall'] }}</td>
                 <td>{{ '%0.2f' % row['estimated_score']['precision'] }}</td>
-                <td>{{ '%0.2f' % row['estimated_score']['param'] }}</td>
+                <td>{{ '%0.2f' % row['estimated_score']['recall'] }}</td>
                 <td>{{ '%0.2f' % row['estimated_score']['accuracy'] }}</td>
+                <td>{{ '%0.2f' % row['estimated_score']['accuracy_interval90'] }}</td>
+                <td>{{ '%0.2f' % row['estimated_score']['param'] }}</td>
                 <td>{{ '%0.2f' % row['estimated_score']['roc_auc'] }}</td>
                 <td><a href="/pools/{{ row['pool_id'] }}">{{ row['pool_id'] }}</a></td>
             </tr>

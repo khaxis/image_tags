@@ -14,4 +14,9 @@
             <a href="/get_image/{{image['IId']}}"><img src="/get_image/{{image['IId']}}" class="thumbnail"/></a>
         {% endfor %}
     {% endfor %}
+
+    <h2>Trained Models</h2>
+    {% for model in models %}
+        <p>{% include 'block/model.html' %}</p>
+    {% endfor %}
 {% endblock %}
