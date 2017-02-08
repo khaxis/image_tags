@@ -127,15 +127,6 @@ def getPoolUrlsIterator(poolId, include_train_set=True, include_test_set=True):
         no_cursor_timeout=True)
 
 
-def getPoolSize(poolId, downloadedOnly=False):
-    if type(poolId) != ObjectId:
-        poolId = ObjectId(poolId)
-    query = {'pools.poolId':poolId}
-    if downloadedOnly:
-        query['downloadable'] = True
-    return db.image_urls.count(query)
-
-
 def updateImagePath(imageRecord, path):
     return db.image_urls.update_one(
         {'_id':imageRecord['_id']},

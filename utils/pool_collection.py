@@ -17,7 +17,7 @@ def getPool(poolId):
 
 
 def getSampleOfImages(poolId, sample_size=None):
-    poolId =toObjectID(poolId)
+    poolId = toObjectID(poolId)
     if sample_size is None:
         return db.image_urls.find(
                     {'pools.poolId': poolId}
@@ -26,3 +26,13 @@ def getSampleOfImages(poolId, sample_size=None):
         return db.image_urls.find(
                     {'pools.poolId': poolId}
                 ).limit(sample_size)
+
+
+def getPoolSize(poolId, downloadedOnly=False):
+    if type(poolId) != ObjectId:
+        poolId = ObjectId(poolId)
+    query = {'pools.poolId':poolId}
+    if downloadedOnly:
+        query['downloadable'] = True
+    return db.image_urls.count(query)
+

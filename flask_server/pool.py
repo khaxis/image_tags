@@ -29,6 +29,14 @@ def get_pool(pool_id):
         class_images[k] = random.sample(class_images[k], SAMPLE_SIZE)
 
     models = list(mcoll.getModelsByPoolId(pool_id))
+    pool = pcoll.getPool(pool_id)[0]
+
+    properties = {
+    	'Pool Size': pcoll.getPoolSize(pool_id),
+    	'Pool Size (DownloadedOnly)': pcoll.getPoolSize(pool_id, downloadedOnly=True),
+    	'Created': pool['date_inserted'],
+    	'Targets': ', '.join(map(str, class_images.keys()))
+    }
 
     app.logger.info(models)
-    return render_template('pool.html', pool=pcoll.getPool(pool_id)[0], class_images=class_images, models=models)
+    return render_template('pool.html', pool=pool, class_images=class_images, models=models, properties=properties)

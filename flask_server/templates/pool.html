@@ -3,11 +3,25 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static',filename='gallery.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='table.css') }}" />
 {% endblock %}
 {% block content %}
     <h1>Pool #{{ pool['_id'] }}</h1>
-    <h2>Description: {{ pool['description'] }}<h2>
-    <h2>Created: {{ pool['date_inserted'] }}</h2>
+    <h2>Description: {{ pool['description'] }}</h2>
+
+    <table id="general_table">
+        <tr id="table_header">
+            <td>Property</td>
+            <td>Value</td>
+        </tr>
+        {% for property_name, property_value in properties.iteritems() %}
+            <tr class="table_content {{ loop.cycle('odd', 'even') }}">
+                <td>{{ property_name }}</td>
+                <td>{{ property_value }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
     {% for target in class_images %}
         <h3>Target: {{ target }}</h3>
         {% for image in class_images[target] %}
@@ -16,7 +30,11 @@
     {% endfor %}
 
     <h2>Trained Models</h2>
-    {% for model in models %}
-        <p>{% include 'block/model.html' %}</p>
-    {% endfor %}
+    {% if models %}
+        {% for model in models %}
+            <p>{% include 'block/model.html' %}</p>
+        {% endfor %}
+    {% else %}
+        <p>No trained models</p>
+    {% endif %}
 {% endblock %}
