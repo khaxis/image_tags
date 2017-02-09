@@ -60,7 +60,7 @@ def fetchPool(argv):
                     features = extractor.extract(im)
                     if features[0] is not None:
                         entry = {}
-                        entry['features'] = features[0][0].tolist()
+                        entry['features'] = features[0].tolist()
                         entry['version'] = extractor.getVersion()
                         slices[extractor_name] = entry
                 

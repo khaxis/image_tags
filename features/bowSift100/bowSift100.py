@@ -56,9 +56,9 @@ class BOWSift100(BaseSlice):
             for w in words:
                 imFeatures[0][w] += 1
             imFeatures = self.__stdSlr.transform(imFeatures)
-            res.append(imFeatures)
+            res.append(imFeatures[0])
 
-        return res
+        return np.stack(res, axis=0)
 
 
     def getName(self):
