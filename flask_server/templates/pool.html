@@ -29,7 +29,7 @@
         {% endfor %}
     {% endfor %}
 
-    <h2>Trained Models</h2>
+    <h2>Trained Models{% if models %} <a href="/models/filter?pool_id={{pool['_id']}}">(as list)</a>{% endif %}</h2>
     {% if models %}
         {% for model in models %}
             <p>{% include 'block/model.html' %}</p>

@@ -76,7 +76,7 @@ def train_classifier(poolId, nId, name, include_test, slices, description):
 
     stats = []
     # Try to find best regularization parameters
-    iter_values = range(0, 30)
+    iter_values = range(0, 10)
     for i in range(len(iter_values)):
         C = 2 ** (iter_values[i] / 2.)
         clf = svm.SVC(kernel='rbf', C=C)

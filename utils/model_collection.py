@@ -1,12 +1,14 @@
 import os
 import datetime
 from db_connector import *
-from bson.objectid import ObjectId
 from common import toObjectID
 
 
-def getModelsList():
-    res = db.classification_model.find().sort('date_inserted', -1)
+def getModelsList(pool_id=None):
+    fltr = {}
+    if pool_id:
+        fltr = {'pool_id': toObjectID(pool_id)}
+    res = db.classification_model.find(fltr).sort('date_inserted', -1)
     return res
 
 
