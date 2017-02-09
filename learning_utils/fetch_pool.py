@@ -2,6 +2,7 @@
 import sys
 import argparse
 from utils import img_collection as icoll
+from utils import pool_collection as pcoll
 from utils import web_utils
 from utils import progress_bar
 from utils import config
@@ -24,7 +25,7 @@ def fetchPool(argv):
     storePath = os.path.join(workingDir, 'images')
 
     i = 0
-    totalCount = icoll.getPoolSize(args.pool)
+    totalCount = pcoll.getPoolSize(args.pool)
     with icoll.getPoolUrlsIterator(args.pool) as cursor:
         cursor.batch_size(100)
         for row in cursor:
@@ -63,9 +64,11 @@ def fetchPool(argv):
                         entry['features'] = features[0].tolist()
                         entry['version'] = extractor.getVersion()
                         slices[extractor_name] = entry
-                
+
+
                 if len(slices) > 0:
                     icoll.updateImageSlices(row, slices)
+
             i += 1
             progress_bar.printProgress(i, totalCount)
         print()
