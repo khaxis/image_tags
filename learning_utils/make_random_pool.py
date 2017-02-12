@@ -2,6 +2,7 @@
 import sys
 import argparse
 from utils import img_collection as icoll
+from utils import pool_collection as pcoll
 from utils import progress_bar
 import random
 
@@ -18,7 +19,7 @@ def makePool(argv):
     args = parseArguments()
     imageUrls = []
 
-    poolId = icoll.makePool(args.description)
+    poolId = pcoll.makePool(args.description)
     print "Getting random images..."
     for row in icoll.findRandomImageUrlsDocuments(args.capacity):
         imageUrls.append(row)

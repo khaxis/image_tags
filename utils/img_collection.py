@@ -88,10 +88,6 @@ def findRandomImageUrlsDocuments(randomDocumentsCount):
     return res
 
 
-def makePool(description):
-    return db.pool.insert({'description':description, 'date_inserted':datetime.datetime.utcnow()})
-
-
 def assignToPool(urlRecord, poolId, target, in_train_set=True):
     db.image_urls.update_one(
         {'_id':urlRecord['_id']},

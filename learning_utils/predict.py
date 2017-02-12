@@ -25,6 +25,8 @@ def predict(argv):
             continue
         path = splitted_line[0]
         im = cv2.imread(path)
+        ratio = max(500. / im.shape[0], 500. / im.shape[1])
+        im = cv2.resize(im, (0,0), fx=ratio, fy=ratio)
         splitted_line[0] = str(predictor.predict(im)[0]) 
         print('\t'.join(splitted_line))
 

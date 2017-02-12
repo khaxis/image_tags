@@ -2,6 +2,7 @@
 import sys
 import argparse
 from utils import img_collection as icoll
+from utils import pool_collection as pcoll
 from utils import progress_bar
 import random
 
@@ -9,12 +10,19 @@ import random
 def parseArguments():
     parser = argparse.ArgumentParser(description='Make learning pool')
     parser.add_argument('--target', dest='target', help='Target class', required=True)
+    parser.add_argument('--out', help='File pool-id will be written to')
+    parser.add_argument('--test-mode', help='Do nothing, but return prepared pool', action='store_true')
 
     return parser.parse_args()
 
 
 def makePool(argv):
     args = parseArguments()
+    if args.test_mode:
+        if args.out:
+            with open(args.out, 'w') as f:
+                f.write('589cb3090310e95e94ead22b')
+        return
 
     tree = icoll.findChildren(args.target)
     print "Tree of positives:"
@@ -26,7 +34,7 @@ def makePool(argv):
     sys.stdout.write("Done\n")
 
     description = "%s %s" % (tree['NId'], tree['description'])
-    poolId = icoll.makePool(description)
+    poolId = pcoll.makePool(description)
     sys.stdout.write("Pool created with ID: %s\n" % poolId)
     
     image_urls_positives_size = len(image_urls_positives)
@@ -60,7 +68,9 @@ def makePool(argv):
         icoll.assignToPool(row, poolId, 0)
         progress_bar.printProgress(index + 1, image_urls_negatives_size)
 
-    return poolId
+    if args.out:
+        with open(args.out, 'w') as f:
+            f.write(str(poolId))
 
 
 if __name__ == "__main__":

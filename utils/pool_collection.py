@@ -5,6 +5,10 @@ from bson.objectid import ObjectId
 from common import toObjectID
 
 
+def makePool(description):
+    return db.pool.insert({'description':description, 'date_inserted':datetime.datetime.utcnow()})
+
+
 def getPoolsList():
     res = db.pool.find().sort('date_inserted', -1)
     return res
@@ -35,4 +39,3 @@ def getPoolSize(poolId, downloadedOnly=False):
     if downloadedOnly:
         query['downloadable'] = True
     return db.image_urls.count(query)
-

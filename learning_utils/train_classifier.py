@@ -22,6 +22,7 @@ def parseArguments():
     parser.add_argument('--include-test', help='Include test set into the learning pool while training', action='store_true')
     parser.add_argument('--slices', help='Space-separated list of slices', nargs='+', required=True)
     parser.add_argument('--description', help='Description of the trained model')
+    parser.add_argument('--out', help='Destination of model id')
 
 
     return parser.parse_args()
@@ -114,7 +115,7 @@ def train_classifier(poolId, nId, name, include_test, slices, description):
     destination = os.path.join(storePath, str(uuid.uuid1()) + '.pkl')
     
     joblib.dump(clf, destination, compress=3)
-    icoll.makeClassificationModel(
+    model_id = icoll.makeClassificationModel(
         pool_id=poolId,
         description=description,
         nId=nId,
@@ -123,6 +124,10 @@ def train_classifier(poolId, nId, name, include_test, slices, description):
         path=destination,
         include_test_set=include_test
         )
+
+    if args.out:
+        with open(args.out, 'w') as f:
+            f.write(str(model_id))
 
 
 if __name__ == "__main__":
