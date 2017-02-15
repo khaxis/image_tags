@@ -21,16 +21,7 @@ class MakePool(luigi.Task):
         if process.returncode == 0:
             with self.output().open('w') as out_file, open(f.name, 'r') as id_file:
                 out_file.write(id_file.read())
-        """
-        print "-----------------"
-        bashCommand = 'echo %s > %s' % ("helo world", self.output().path)
 
-        process = subprocess.Popen(['/bin/sh', '-c' , '-e', bashCommand], stdout=subprocess.PIPE)
-        output, error = process.communicate()
-        print "-----------------"
-        print output,'#', error, '$', process.returncode
-        print "-----------------"
-        """
 
 class GetPoolStats(luigi.Task):
     n_class = luigi.Parameter()
@@ -96,7 +87,7 @@ class FetchPool(luigi.Task):
     sampled_pool_size = luigi.IntParameter(10000)
 
     def requires(self):
-        return [GetSampledOrOriginalPool(n_class=self.n_class, image_tag_path=self.image_tag_path)]
+        return [GetSampledOrOriginalPool(n_class=self.n_class, image_tag_path=self.image_tag_path, sampled_pool_size=self.sampled_pool_size)]
  
     def output(self):
         return luigi.LocalTarget("target_fetched_pool_" + str(self.n_class))
@@ -119,7 +110,7 @@ class TrainClassifier(luigi.Task):
     sampled_pool_size = luigi.IntParameter(10000)
 
     def requires(self):
-        return [FetchPool(n_class=self.n_class, image_tag_path=self.image_tag_path)]
+        return [FetchPool(n_class=self.n_class, image_tag_path=self.image_tag_path, sampled_pool_size=self.sampled_pool_size)]
  
     def output(self):
         return luigi.LocalTarget("target_train_classifier_pool_" + str(self.n_class))
