@@ -21,7 +21,7 @@ def makePool(argv):
     if args.test_mode:
         if args.out:
             with open(args.out, 'w') as f:
-                f.write('589cb3090310e95e94ead22b')
+                f.write('589cb3d60310e95ec7728f63')
         return
 
     tree = icoll.findChildren(args.target)

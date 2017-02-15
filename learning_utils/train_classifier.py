@@ -23,13 +23,19 @@ def parseArguments():
     parser.add_argument('--slices', help='Space-separated list of slices', nargs='+', required=True)
     parser.add_argument('--description', help='Description of the trained model')
     parser.add_argument('--out', help='Destination of model id')
-
+    parser.add_argument('--test-mode', help='Do nothing, but return prepared pool', action='store_true')
 
     return parser.parse_args()
 
 
 def train_classifier_arg_parser(argv):
     args = parseArguments()
+
+    if args.test_mode:
+        if args.out:
+            with open(args.out, 'w') as f:
+                f.write()
+        return
 
     poolId = args.pool_id
     nId = args.nid
@@ -99,6 +105,7 @@ def train_classifier(poolId, nId, name, include_test, slices, description):
         #print '\t'.join([str(C)] + map(str, [v for k, v in entry.iteritems()]))
         stats.append(entry)
         progress_bar.printProgress(i + 1, len(iter_values))
+        print entry
     print
 
     stats = pd.DataFrame(stats)

@@ -14,12 +14,17 @@ import cv2
 def parseArguments():
     parser = argparse.ArgumentParser(description='Fetch all urls from the pool')
     parser.add_argument('--pool', dest='pool', help='Pool id', required=True)
+    parser.add_argument('--test-mode', help='Do nothing, but return prepared pool', action='store_true')
 
     return parser.parse_args()
 
 
 def fetchPool(argv):
     args = parseArguments()
+
+    if args.test_mode:
+        print("TEST MODE")
+        return
     
     workingDir = config.getDataPath()
     storePath = os.path.join(workingDir, 'images')
