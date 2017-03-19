@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from common import *
+from flask_server.common import *
 import utils.model_collection as mcoll
 
 @app.route("/models/")

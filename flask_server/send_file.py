@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from common import *
-from pool import *
+from flask_server.common import *
+from flask_server.pool import *
 from os.path import join
 from utils.config import getDataPath
 

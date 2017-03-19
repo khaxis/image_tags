@@ -1,6 +1,6 @@
 import os
 import datetime
-from db_connector import *
+from utils.db_connector import *
 from bson.objectid import ObjectId
 
 def getDesctiption(nId):

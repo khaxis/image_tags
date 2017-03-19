@@ -1,6 +1,6 @@
 import requests
 import os
-from db_connector import *
+from utils.db_connector import *
 
 def downloadSingleImage(url, dest):
     #urllib.urlretrieve (url, dest)
