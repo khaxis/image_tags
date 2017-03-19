@@ -1,5 +1,5 @@
 import sys
-from db_connector import *
+from utils.db_connector import *
 from bson.objectid import ObjectId
 
 def getSlice(name):

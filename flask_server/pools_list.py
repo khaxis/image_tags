@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from common import *
-from pool import *
+from flask_server.common import *
+from flask_server.pool import *
 import utils.pool_collection as pcoll
 
 @app.route("/pools/")

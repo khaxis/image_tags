@@ -1,7 +1,7 @@
 import os
 import datetime
-from db_connector import *
-from common import toObjectID
+from utils.db_connector import *
+from utils.common import toObjectID
 
 
 def getModelsList(pool_id=None):

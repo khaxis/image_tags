@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-from common import *
-from pools_list import *
-from models_list import *
+from flask_server.common import *
+from flask_server.pools_list import *
+from flask_server.models_list import *
 
 
 @app.route("/")
