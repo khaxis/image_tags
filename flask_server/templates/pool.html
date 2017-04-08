@@ -14,7 +14,7 @@
             <td>Property</td>
             <td>Value</td>
         </tr>
-        {% for property_name, property_value in properties.iteritems() %}
+        {% for property_name, property_value in properties.items() %}
             <tr class="table_content {{ loop.cycle('odd', 'even') }}">
                 <td>{{ property_name }}</td>
                 <td>{{ property_value }}</td>
