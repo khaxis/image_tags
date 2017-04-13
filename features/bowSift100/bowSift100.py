@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from features.baseSlice.baseSlice import BaseSlice
 from utils import img_collection as icoll
 import cv2
@@ -71,7 +72,5 @@ class BOWSift100(BaseSlice):
         self.__initiated = True
 
 if __name__ == "__main__":
-    print "BOWSift100"
+    print("BOWSift100")
 
-def x():
-    return 0
