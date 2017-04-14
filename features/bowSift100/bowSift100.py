@@ -23,13 +23,13 @@ class BOWSift100(BaseSlice):
             self.loadModel(sliceDescriptor['model_path'])
 
         # Create feature extraction and keypoint detector objects
-        self.__fea_det = cv2.FeatureDetector_create("SIFT")
-        self.__des_ext = cv2.DescriptorExtractor_create("SIFT")
+        self.__fea_det = cv2.xfeatures2d.SIFT_create()
+        self.__des_ext = self.__fea_det
 
 
     def getVersion(self):
         """Get a version number as int"""
-        return 0
+        return 1
 
 
     def extract(self, images):
