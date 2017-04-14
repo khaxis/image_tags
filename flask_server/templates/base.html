@@ -4,6 +4,7 @@
     {% block head %}
     <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static',filename='base_elements.css') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='favicon.png') }}" />
     <title>{% block title %}{% endblock %} - Image Tag</title>
     {% endblock %}
 </head>
