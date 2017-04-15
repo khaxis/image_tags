@@ -67,8 +67,8 @@ class BOWSift100(BaseSlice):
         return 'bowSift100'
 
 
-    def loadModel(self, modelFilename):
-        self.__stdSlr, self.__k, self.__voc = joblib.load(modelFilename)
+    def loadModel(self, model_path):
+        self.__stdSlr, self.__k, self.__voc = joblib.load(model_path)
         self.__initiated = True
 
 if __name__ == "__main__":

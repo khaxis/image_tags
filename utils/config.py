@@ -13,7 +13,7 @@ def __init__():
 
 
 def getDataPath():
-    return '/Users/khaxis/data/image_tags'
+    return 'image_tags'
 
 def GetDBConfig():
     return MongoConfig(

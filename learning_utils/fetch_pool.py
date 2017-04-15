@@ -6,10 +6,10 @@ from utils import pool_collection as pcoll
 from utils import web_utils
 from utils import progress_bar
 from utils import config
+from utils import file_handler
+from utils import image_handler
 from features import sliceFactory
-import random
 import os
-import cv2
 
 def parseArguments():
     parser = argparse.ArgumentParser(description='Fetch all urls from the pool')
@@ -36,7 +36,9 @@ def fetchPool(argv):
         for row in cursor:
             destination = os.path.join(storePath, row['IId'])
             if 'path' not in row:
-                if web_utils.downloadSingleImage(row['Url'], destination):
+                file_content = web_utils.get_file_stream(row['Url'])
+                if file_content:
+                    file_handler.upload_file(destination, file_content)
                     # the image successfully saved
                     icoll.updateImagePath(row, destination)
                     icoll.updateImageDownloadableStatus(row, True)
@@ -62,7 +64,7 @@ def fetchPool(argv):
                     if 'slices' in row and extractor_name in row['slices'] and row['slices'][extractor_name]['version'] == extractor.getVersion():
                         continue # no need to go on if features already extracted with the current version
                     if im is None:
-                        im = cv2.imread(row['path'])
+                        im = image_handler.get_image(row['path'])
                     features = extractor.extract(im)
                     if features[0] is not None:
                         entry = {}
