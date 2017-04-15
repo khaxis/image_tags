@@ -1,0 +1,10 @@
+conda install pymongo
+conda install -c menpo opencv3
+#conda install -c bioconda google-cloud-sdk
+conda install -c conda-forge google-api-python-client
+#boto3
+
+git clone https://github.com/enplore/gcs-oauth2-boto-plugin.git
+cd gcs-oauth2-boto-plugin
+python setup.py build
+python setup.py install
