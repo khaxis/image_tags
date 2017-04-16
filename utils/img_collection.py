@@ -145,6 +145,17 @@ def updateImageDownloadableStatus(imageRecord, downloadable):
         }
     )
 
+def updateImageValidStatus(imageRecord, valid_image):
+    return db.image_urls.update_one(
+        {'_id':imageRecord['_id']},
+        {
+        '$set':
+            {
+            'valid_image':valid_image
+            }
+        }
+    )
+
 def updateImageSlices(imageRecord, slices):
     return db.image_urls.update_one(
         {'_id':imageRecord['_id']},

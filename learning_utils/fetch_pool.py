@@ -37,13 +37,21 @@ def fetchPool(argv):
             destination = os.path.join(storePath, row['IId'])
             if 'path' not in row:
                 file_content = web_utils.get_file_stream(row['Url'])
-                if file_content:
+                if file_content and image_handler.is_valid_image(file_content):
                     file_handler.upload_file(destination, file_content)
                     # the image successfully saved
                     icoll.updateImagePath(row, destination)
                     icoll.updateImageDownloadableStatus(row, True)
+                    icoll.updateImageValidStatus(row, True)
                 else:
                     icoll.updateImageDownloadableStatus(row, False)
+                    icoll.updateImageValidStatus(row, False)
+            else:
+                # temporary
+                file_content = file_handler.get_file_stream(row['path'])
+                valid_status = image_handler.is_valid_image(file_content)
+                icoll.updateImageValidStatus(row, valid_status)
+
             i += 1
             progress_bar.printProgress(i, totalCount)
         print()
