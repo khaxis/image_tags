@@ -38,7 +38,7 @@ def fetchPool(argv):
             if 'path' not in row:
                 file_content = web_utils.get_file_stream(row['Url'])
                 if file_content and image_handler.is_valid_image(file_content):
-                    file_handler.upload_file(destination, file_content)
+                    file_handler.upload_file_stream(destination, file_content)
                     # the image successfully saved
                     icoll.updateImagePath(row, destination)
                     icoll.updateImageDownloadableStatus(row, True)

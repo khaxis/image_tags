@@ -20,4 +20,4 @@ def upload_file_stream(file_path, fp):
 
 if __name__ == '__main__':
     with open('/tmp/a') as fp:
-        upload_file('image_tags/tmp/a', fp)
+        upload_file_stream('image_tags/tmp/a', fp)
