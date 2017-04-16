@@ -26,7 +26,8 @@ def get_pool(pool_id):
 
     targets = class_images.keys()
     for k in targets:
-        class_images[k] = random.sample(class_images[k], SAMPLE_SIZE)
+        class_len = len(class_images[k])
+        class_images[k] = random.sample(class_images[k], min(SAMPLE_SIZE, class_len))
 
     models = list(mcoll.getModelsByPoolId(pool_id))
     pool = pcoll.getPool(pool_id)[0]
