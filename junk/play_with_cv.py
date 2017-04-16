@@ -24,7 +24,7 @@ def train():
     trainPool = []
 
     for i, r in enumerate(icoll.getPoolUrlsIterator('581e06de0310e9180b1f7a62')):
-        if r['downloadable']:
+        if r['valid_image']:
             trainPool.append(r)
         if i>10:
             break

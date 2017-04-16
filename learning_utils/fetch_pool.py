@@ -68,7 +68,7 @@ def fetchPool(argv):
     with icoll.getPoolUrlsIterator(args.pool) as cursor:
         cursor.batch_size(100)
         for row in cursor:
-            if 'path' in row and row['downloadable']:
+            if row['valid_image']:
                 im = None
                 slices = {}
                 for extractor in extractors:
@@ -83,7 +83,6 @@ def fetchPool(argv):
                         entry['features'] = features[0].tolist()
                         entry['version'] = extractor.getVersion()
                         slices[extractor_name] = entry
-
 
                 if len(slices) > 0:
                     icoll.updateImageSlices(row, slices)

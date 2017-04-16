@@ -23,7 +23,7 @@ def createDictionary(argv):
     
     trainPool = []
     for i, row in enumerate(icoll.getPoolUrlsIterator(args.pool)):
-        if row['downloadable']:
+        if row['valid_image']:
             trainPool.append(row)
     sys.stdout.write("Pool size: %d\n" % len(trainPool))
 

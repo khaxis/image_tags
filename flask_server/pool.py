@@ -18,7 +18,7 @@ def get_pool(pool_id):
     class_images = defaultdict(list)
     neg_images = []
     for img in src_images:
-        if 'downloadable' not in img or not img['downloadable']:
+        if 'valid_image' not in img or not img['valid_image']:
             continue
         #pos_images.append(img)
         pool_info = [p for p in img['pools'] if p['poolId'] == pool_id][0]
