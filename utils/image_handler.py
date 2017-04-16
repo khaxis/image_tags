@@ -10,6 +10,9 @@ def get_image(image_path, cv2_img_flag=0):
     return None
 
 def is_valid_image(fp, cv2_img_flag=0):
-    image = cv2.imdecode(np.asarray(bytearray(fp.read())), cv2_img_flag)
+    img_array = np.asarray(bytearray(fp.read()))
+    image = None
+    if len(img_array):
+        image = cv2.imdecode(img_array, cv2_img_flag)
     fp.seek(0)
     return image is not None
