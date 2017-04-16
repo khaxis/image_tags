@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 from utils.file_handler import get_stream
 
 def get_image(image_path, cv2_img_flag=0):
