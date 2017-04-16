@@ -48,7 +48,11 @@ def fetchPool(argv):
                     icoll.updateImageValidStatus(row, False)
             else:
                 # temporary
-                file_content = file_handler.get_file_stream(row['path'])
+                file_path = row['path']
+                if file_path.startswith('/Users'):
+                    file_path = 'image_tags/images/' + row['IId']
+                    icoll.updateImagePath(row, file_path)
+                file_content = file_handler.get_file_stream(file_path)
                 valid_status = image_handler.is_valid_image(file_content)
                 icoll.updateImageValidStatus(row, valid_status)
 

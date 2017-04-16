@@ -25,7 +25,9 @@
     {% for target in class_images %}
         <h3>Target: {{ target }}</h3>
         {% for image in class_images[target] %}
+            {% if image['valid_image'] %}
             <a href="/get_image/{{image['IId']}}"><img src="/get_image/{{image['IId']}}" class="thumbnail"/></a>
+            {% endif %}
         {% endfor %}
     {% endfor %}
 
