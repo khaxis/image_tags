@@ -32,10 +32,12 @@ def getSampleOfImages(poolId, sample_size=None):
                 ).limit(sample_size)
 
 
-def getPoolSize(poolId, downloadedOnly=False):
+def getPoolSize(poolId, downloaded_only=False, valid_only=False):
     if type(poolId) != ObjectId:
         poolId = ObjectId(poolId)
     query = {'pools.poolId':poolId}
-    if downloadedOnly:
+    if downloaded_only:
         query['downloadable'] = True
+    if valid_only:
+        query['valid_image'] = True
     return db.image_urls.count(query)

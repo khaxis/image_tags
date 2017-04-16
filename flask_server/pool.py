@@ -5,7 +5,7 @@ import utils.pool_collection as pcoll
 import utils.model_collection as mcoll
 import utils.img_collection as icoll
 from utils.common import toObjectID
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 import random
 
 
@@ -31,12 +31,11 @@ def get_pool(pool_id):
     models = list(mcoll.getModelsByPoolId(pool_id))
     pool = pcoll.getPool(pool_id)[0]
 
-    properties = {
-    	'Pool Size': pcoll.getPoolSize(pool_id),
-    	'Pool Size (DownloadedOnly)': pcoll.getPoolSize(pool_id, downloadedOnly=True),
-    	'Created': pool['date_inserted'],
-    	'Targets': ', '.join(map(str, class_images.keys()))
-    }
+    properties = OrderedDict()
+    properties['Pool Size'] = pcoll.getPoolSize(pool_id)
+    properties['Pool Size (Valid images)'] = pcoll.getPoolSize(pool_id, valid_only=True)
+    properties['Created'] = pool['date_inserted']
+    properties['Targets'] = ', '.join(map(str, class_images.keys()))
 
     app.logger.info(models)
     return render_template('pool.html', pool=pool, class_images=class_images, models=models, properties=properties)
