@@ -6,12 +6,14 @@ from utils import img_collection as icoll
 from utils import progress_bar
 from utils import config
 from utils import progress_bar
+from utils import file_handler
 import os
 import uuid
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn import svm
 from sklearn.metrics import accuracy_score, precision_score, confusion_matrix
 from sklearn.externals import joblib
+import tempfile
 
 
 def parseArguments():
@@ -83,7 +85,7 @@ def train_classifier(poolId, nId, name, include_test, slices, description):
 
     stats = []
     # Try to find best regularization parameters
-    iter_values = range(0, 10)
+    iter_values = list(range(0, 10))
     for i in range(len(iter_values)):
         C = 2 ** (iter_values[i] / 2.)
         clf = svm.SVC(kernel='rbf', C=C)
@@ -105,23 +107,26 @@ def train_classifier(poolId, nId, name, include_test, slices, description):
         #print '\t'.join([str(C)] + map(str, [v for k, v in entry.iteritems()]))
         stats.append(entry)
         progress_bar.printProgress(i + 1, len(iter_values))
-        print entry
-    print
+        print(entry)
+    print()
 
     stats = pd.DataFrame(stats)
     stats.sort_values(by=['f1', 'precision', 'roc_auc'], inplace=True, ascending=False)
-    print stats
+    print(stats)
 
     C = stats.iloc[0]['param']
     estimated_score = dict(stats.iloc[0])
 
-    print "Best regularization parameter so far: %f" % C
+    print("Best regularization parameter so far: %f" % C)
     clf = svm.SVC(kernel='rbf', C=C).fit(features, targets)
     workingDir = config.getDataPath()
     storePath = os.path.join(workingDir, 'models')
     destination = os.path.join(storePath, str(uuid.uuid1()) + '.pkl')
-    
-    joblib.dump(clf, destination, compress=3)
+
+    tmp_filename = tempfile.mktemp()
+    joblib.dump(clf, tmp_filename, compress=3)
+    with open(tmp_file, 'rb') as fp:
+        file_handler.upload_file_stream(destination, fp)
     model_id = icoll.makeClassificationModel(
         pool_id=poolId,
         description=description,
