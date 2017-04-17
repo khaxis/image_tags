@@ -125,7 +125,7 @@ def train_classifier(poolId, nId, name, include_test, slices, description):
 
     tmp_filename = tempfile.mktemp()
     joblib.dump(clf, tmp_filename, compress=3)
-    with open(tmp_file, 'rb') as fp:
+    with open(tmp_filename, 'rb') as fp:
         file_handler.upload_file_stream(destination, fp)
     model_id = icoll.makeClassificationModel(
         pool_id=poolId,
