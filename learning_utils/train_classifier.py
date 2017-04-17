@@ -45,8 +45,9 @@ def train_classifier_arg_parser(argv):
     include_test = args.include_test
     slices = args.slices
     description = args.description
+    out_model_id = args.out
 
-    train_classifier(poolId, nId, name, include_test, slices, description)
+    train_classifier(poolId, nId, name, include_test, slices, description, out_model_id)
 
 
 def perf_measure(clf, X_test, y_test):
@@ -58,7 +59,7 @@ def perf_measure(clf, X_test, y_test):
     return(TP, FP, TN, FN)
 
 
-def train_classifier(poolId, nId, name, include_test, slices, description):
+def train_classifier(poolId, nId, name, include_test, slices, description, out_model_id):
     slices = sorted(slices)        # sort the list of slices just in case of misunderstanding in the future
     slices_set = set(slices)
     if not description:
@@ -137,8 +138,8 @@ def train_classifier(poolId, nId, name, include_test, slices, description):
         include_test_set=include_test
         )
 
-    if args.out:
-        with open(args.out, 'w') as f:
+    if out_model_id:
+        with open(out_model_id, 'w') as f:
             f.write(str(model_id))
 
 
