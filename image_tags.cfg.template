@@ -1,0 +1,8 @@
+[MONGODB]
+User = DB_USER
+Password = DB_PASSWORD
+Host = 127.0.0.1
+Port = 27017
+
+[STORAGE]
+ImgPrefix = gs://image_tags/images
