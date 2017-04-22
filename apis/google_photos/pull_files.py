@@ -49,7 +49,7 @@ def main():
             for item in items:
                 if item['mimeType'].split('/')[0] != 'image':
                     continue
-                destination = 'image_tags/tmp/' + item['name']
+                destination = 'image_tags/validation/' + item['name']
                 file_content = get_file_stream(service, item['id'])
                 if file_content and image_handler.is_valid_image(file_content):
                     file_handler.upload_file_stream(destination, file_content)
