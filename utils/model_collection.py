@@ -32,5 +32,5 @@ def makeClassificationModel(pool_id, description, nId, slices, estimated_score, 
             'estimated_score': estimated_score,
             'path': path,
             'include_test_set': include_test_set,
-            'pool_id': ObjectId(pool_id)
+            'pool_id': toObjectID(pool_id)
         })

@@ -2,6 +2,8 @@
 import sys
 import argparse
 import pandas as pd
+
+from features import sliceFactory
 from utils import img_collection as icoll
 from utils import model_collection as mcoll
 from utils import progress_bar
@@ -19,7 +21,7 @@ import tempfile
 
 def parseArguments():
     parser = argparse.ArgumentParser(description='Train a classifier with a given pool')
-    parser.add_argument('--pool-id', help='Pool id from the database', required=True)
+    parser.add_argument('--pool', help='Pool id from the database', required=True)
     parser.add_argument('--nid', help='nID of the target column', required=True)
     parser.add_argument('--name', help='Name of the model')
     parser.add_argument('--include-test', help='Include test set into the learning pool while training', action='store_true')
@@ -40,7 +42,7 @@ def train_classifier_arg_parser(argv):
                 f.write()
         return
 
-    poolId = args.pool_id
+    poolId = args.pool
     nId = args.nid
     name = args.name
     include_test = args.include_test
@@ -67,8 +69,21 @@ def train_classifier(poolId, nId, name, include_test, slices, description, out_m
         description = poolId + ' classification'
     assert type(nId) != None
 
-    
     pd.set_option('display.expand_frame_repr', False)
+
+    # check slices and init variables
+    extractors = sliceFactory.getExtractors()
+    slice_to_version = dict()
+    for extractor in extractors:
+        extractor_name = extractor.getName()
+        if extractor_name not in slices_set:
+            continue
+        slice_to_version[extractor_name] = extractor.getVersion()
+    assert len(slice_to_version) == len(slices)
+    slices_descriptor = [{
+        'name': extractor_name,
+        'version': slice_to_version[extractor_name]
+        } for extractor_name in slices ]
 
     targets = []
     features = []
@@ -80,6 +95,8 @@ def train_classifier(poolId, nId, name, include_test, slices, description, out_m
         targets.append([desc for desc in r['pools'] if str(desc['poolId']) == poolId][0]['target'])
         featureVector = []
         for sliceName in slices:
+            if r['slices'][sliceName]['version'] != slice_to_version[sliceName]:
+                raise Exception("Slice is outdated")
             featureVector += r['slices'][sliceName]['features']
         features.append(featureVector)
 
@@ -133,7 +150,7 @@ def train_classifier(poolId, nId, name, include_test, slices, description, out_m
         pool_id=poolId,
         description=description,
         nId=nId,
-        slices=slices,
+        slices=slices_descriptor,
         estimated_score=estimated_score,
         path=destination,
         include_test_set=include_test
