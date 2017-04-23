@@ -12,3 +12,8 @@ def insertValidationImage(path, src_id, src_modified_time):
             'src_id': src_id,
             'src_modified_time': dateutil.parser.parse(src_modified_time)
         })
+
+def findBySrcId(src_id):
+    return db.validation_image.find_one({
+            'src_id': src_id
+        })

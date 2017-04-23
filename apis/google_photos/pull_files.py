@@ -49,6 +49,8 @@ def main():
             for item in items:
                 if item['mimeType'].split('/')[0] != 'image':
                     continue
+                if vcoll.findBySrcId(item['id']) is not None:
+                    continue
                 destination = 'image_tags/validation/' + item['name']
                 file_content = get_file_stream(service, item['id'])
                 if file_content and image_handler.is_valid_image(file_content):
