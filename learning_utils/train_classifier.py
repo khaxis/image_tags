@@ -3,6 +3,7 @@ import sys
 import argparse
 import pandas as pd
 from utils import img_collection as icoll
+from utils import model_collection as mcoll
 from utils import progress_bar
 from utils import config
 from utils import progress_bar
@@ -128,7 +129,7 @@ def train_classifier(poolId, nId, name, include_test, slices, description, out_m
     joblib.dump(clf, tmp_filename, compress=3)
     with open(tmp_filename, 'rb') as fp:
         file_handler.upload_file_stream(destination, fp)
-    model_id = icoll.makeClassificationModel(
+    model_id = mcoll.makeClassificationModel(
         pool_id=poolId,
         description=description,
         nId=nId,

@@ -166,17 +166,3 @@ def updateImageSlices(imageRecord, slices):
             }
         }
     )
-
-def makeClassificationModel(pool_id, description, nId, slices, estimated_score, path, include_test_set):
-    return db.classification_model.insert(
-        {
-            'description': description,
-            'date_inserted': datetime.datetime.utcnow(),
-            'nId': nId,
-            'deprecated': False,
-            'slices': slices,
-            'estimated_score': estimated_score,
-            'path': path,
-            'include_test_set': include_test_set,
-            'pool_id': ObjectId(pool_id)
-        })
