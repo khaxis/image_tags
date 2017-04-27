@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sys
 import argparse
-from predictor import Predictor
+from learning_utils.predictor import Predictor
 import cv2
 
 def parseArguments():
