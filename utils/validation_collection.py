@@ -34,3 +34,15 @@ def updateSlices(record, slices):
             }
         }
     )
+
+def updatePrediction(record, model_id, value):
+    key = '.'.join(['prediction', model_id])
+    return db.validation_image.update_one(
+        {'_id':record['_id']},
+        {
+        '$set':
+            {
+            key: int(value)
+            }
+        }
+    )
