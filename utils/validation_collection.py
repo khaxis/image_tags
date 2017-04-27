@@ -17,3 +17,20 @@ def findBySrcId(src_id):
     return db.validation_image.find_one({
             'src_id': src_id
         })
+
+def getSize():
+    return db.validation_image.count({})
+
+def getImageIterator():
+    return db.validation_image.find({}, no_cursor_timeout=True)
+
+def updateSlices(record, slices):
+    return db.validation_image.update_one(
+        {'_id':record['_id']},
+        {
+        '$set':
+            {
+            'slices':slices
+            }
+        }
+    )
