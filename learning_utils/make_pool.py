@@ -6,6 +6,7 @@ from utils import pool_collection as pcoll
 from utils import progress_bar
 import random
 
+PREVIEW_COUNT = 100
 
 def parseArguments():
     parser = argparse.ArgumentParser(description='Make learning pool')
@@ -38,10 +39,10 @@ def makePool(argv):
     sys.stdout.write("Pool created with ID: %s\n" % poolId)
     
     image_urls_positives_size = len(image_urls_positives)
-
+    preview_prob = float(PREVIEW_COUNT) / image_urls_positives_size
     print("Assigning positives")
     for index, row in zip(range(image_urls_positives_size), image_urls_positives):
-        icoll.assignToPool(row, poolId, 1)
+        icoll.assignToPool(row, poolId, 1, random.random() < preview_prob)
         progress_bar.printProgress(index + 1, image_urls_positives_size)
 
     parents = icoll.findParents(args.target)
@@ -64,8 +65,9 @@ def makePool(argv):
 
     print("Assigning negatives")
     image_urls_negatives_size = len(image_urls_negatives)
+    preview_prob = float(PREVIEW_COUNT) / image_urls_negatives_size
     for index, row in zip(range(image_urls_negatives_size), image_urls_negatives):
-        icoll.assignToPool(row, poolId, 0)
+        icoll.assignToPool(row, poolId, 0, random.random() < preview_prob)
         progress_bar.printProgress(index + 1, image_urls_negatives_size)
 
     if args.out:

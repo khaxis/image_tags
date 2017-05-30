@@ -88,7 +88,7 @@ def findRandomImageUrlsDocuments(randomDocumentsCount):
     return res
 
 
-def assignToPool(urlRecord, poolId, target, in_train_set=True):
+def assignToPool(urlRecord, poolId, target, in_train_set=True, preview=False):
     db.image_urls.update_one(
         {'_id':urlRecord['_id']},
         {'$push':
@@ -97,7 +97,8 @@ def assignToPool(urlRecord, poolId, target, in_train_set=True):
                 {
                 'poolId': poolId,
                 'target':target,
-                'in_train_set': in_train_set
+                'in_train_set': in_train_set,
+                'preview': preview
                 }
             }
         }
@@ -163,6 +164,17 @@ def updateImageSlices(imageRecord, slices):
         '$set':
             {
             'slices':slices
+            }
+        }
+    )
+
+def updateImagePools(imageRecord, pools):
+    return db.image_urls.update_one(
+        {'_id':imageRecord['_id']},
+        {
+        '$set':
+            {
+            'pools':pools
             }
         }
     )
