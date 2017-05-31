@@ -14,7 +14,7 @@ SAMPLE_SIZE=10
 @app.route("/pools/<pool_id>")
 def get_pool(pool_id):
     pool_id = toObjectID(pool_id)
-    src_images = pcoll.getSampleOfImages(pool_id)
+    src_images = pcoll.getSampleOfImages(pool_id, 1000, previewOnly=True)
     class_images = defaultdict(list)
     neg_images = []
     for img in src_images:

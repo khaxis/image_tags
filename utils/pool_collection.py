@@ -20,15 +20,18 @@ def getPool(poolId):
     return res
 
 
-def getSampleOfImages(poolId, sample_size=None):
+def getSampleOfImages(poolId, sample_size=None, previewOnly=False):
     poolId = toObjectID(poolId)
+    query = {'pools.poolId': poolId}
+    if previewOnly:
+        query['pools.preview'] = True
     if sample_size is None:
         return db.image_urls.find(
-                    {'pools.poolId': poolId}
+                    query
                 )
     else:
         return db.image_urls.find(
-                    {'pools.poolId': poolId}
+                    query
                 ).limit(sample_size)
 
 
