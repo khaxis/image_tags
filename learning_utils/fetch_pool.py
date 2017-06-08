@@ -17,6 +17,7 @@ def parseArguments():
     parser.add_argument('--pool', dest='pool', help='Pool id', required=True)
     parser.add_argument('--test-mode', help='Do nothing, but return prepared pool', action='store_true')
     parser.add_argument('--threads-number', help='The number of concurent threads', type=int, default=10)
+    parser.add_argument('--ignore-caching', help='Skip downloading images step', action='store_false')
 
     return parser.parse_args()
 
@@ -58,25 +59,26 @@ def fetchPool(argv):
     workingDir = config.getDataPath()
     storePath = os.path.join(workingDir, 'images')
 
-    i = 0
     totalCount = pcoll.getPoolSize(args.pool)
-    futures = []
-    with ThreadPoolExecutor(max_workers=args.threads_number) as executor:
-        with icoll.getPoolUrlsIterator(args.pool) as cursor:
-            cursor.batch_size(100)
-            for row in cursor:
-                future = executor.submit(downloadAndUpdateImage, storePath, row)
-                futures.append(future)
+    if args.ignore_caching:
+        i = 0
+        futures = []
+        with ThreadPoolExecutor(max_workers=args.threads_number) as executor:
+            with icoll.getPoolUrlsIterator(args.pool) as cursor:
+                cursor.batch_size(100)
+                for row in cursor:
+                    future = executor.submit(downloadAndUpdateImage, storePath, row)
+                    futures.append(future)
+                print()
+
+            print("Executors scheduled")
+            for f in as_completed(futures):
+                i += 1
+                progress_bar.printProgress(i, totalCount)
             print()
-
-        print("Executors scheduled")
-        for f in as_completed(futures):
-            i += 1
-            progress_bar.printProgress(i, totalCount)
-        print()
-
-
-    print("Pool cached")
+        print("Pool cached")
+    else:
+        print("Ignoring pool caching")
     print("Extracting features...")
 
     i = 0
